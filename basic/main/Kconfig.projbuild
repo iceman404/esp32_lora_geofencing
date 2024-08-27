@@ -1,0 +1,170 @@
+menu "Application Configuration"
+
+    choice DIRECTION
+        prompt "Communication polarity"
+        default SENDER
+        help
+            Select Communication polarity.
+
+        config SENDER
+            bool "As the sender"
+            help
+                Select this option to configure as the sender.
+
+        config RECEIVER
+            bool "As the receiver"
+            help
+                Select this option to configure as the receiver.
+    endchoice
+
+    choice FREQUENCY
+        prompt "Frequency to use"
+        default 433MHZ
+        help
+            Select the frequency to use for communication.
+
+        config 169MHZ
+            bool "169MHz"
+            help
+                Use 169MHz frequency.
+
+        config 433MHZ
+            bool "433MHz"
+            help
+                Use 433MHz frequency.
+
+        config 470MHZ
+            bool "470MHz"
+            help
+                Use 470MHz frequency.
+
+        config 866MHZ
+            bool "866MHz"
+            help
+                Use 866MHz frequency.
+
+        config 915MHZ
+            bool "915MHz"
+            help
+                Use 915MHz frequency.
+
+        config OTHER
+            bool "Other"
+            help
+                Use a custom frequency.
+    endchoice
+
+    config OTHER_FREQUENCY
+        depends on OTHER
+        int "Custom frequency [MHz]"
+        range 1 999
+        default 433
+        help
+            Specify a custom frequency in MHz.
+
+    config ADVANCED
+        bool "Enable Advanced settings"
+        default false
+        help
+            Enable advanced settings for fine-tuning communication parameters.
+
+    config CODING_RATE
+        depends on ADVANCED
+        int "Error coding rate"
+        range 1 4
+        default 1
+        help
+            Set the error coding rate. Higher values provide better error correction.
+
+    config BANDWIDTH
+        depends on ADVANCED
+        int "Signal bandwidth"
+        range 0 9
+        default 7
+        help
+            Configure signal bandwidth. A higher value increases the data rate but reduces the range.
+
+    config SF_RATE
+        depends on ADVANCED
+        int "Spreading Factor"
+        range 5 12
+        default 7
+        help
+            Set the spreading factor. A higher value increases the range but lowers the data rate.
+
+endmenu
+
+menu "Example Configuration"
+
+    orsource "$IDF_PATH/examples/common_components/env_caps/$IDF_TARGET/Kconfig.env_caps"
+
+    config NMEA_PARSER_UART_RXD
+        int "UART RXD pin number"
+        range ENV_GPIO_RANGE_MIN ENV_GPIO_IN_RANGE_MAX
+        default 5
+        help
+            GPIO number for the UART RX pin. Refer to the UART documentation for valid pin numbers.
+
+    config NMEA_PARSER_RING_BUFFER_SIZE
+        int "NMEA Parser Ring Buffer Size"
+        range 0 2048
+        default 1024
+        help
+            Set the size of the ring buffer used for UART Rx.
+
+    config NMEA_PARSER_TASK_STACK_SIZE
+        int "NMEA Parser Task Stack Size"
+        range 0 4096
+        default 3072
+        help
+            Configure the stack size for the NMEA Parser task.
+
+    config NMEA_PARSER_TASK_PRIORITY
+        int "NMEA Parser Task Priority"
+        range 0 24
+        default 2
+        help
+            Set the priority of the NMEA Parser task.
+
+    menu "NMEA Statement Support"
+        comment "At least one statement must be selected"
+
+        config NMEA_STATEMENT_GGA
+            bool "GGA Statement"
+            default y
+            help
+                Parse Latitude, Longitude, Altitude, number of satellites in use, and UTC time from GGA statement.
+
+        config NMEA_STATEMENT_GSA
+            bool "GSA Statement"
+            default y
+            help
+                Parse Position, Vertical/Horizontal dilution of precision, and Fix mode from GSA statement.
+
+        config NMEA_STATEMENT_GSV
+            bool "GSV Statement"
+            default y
+            help
+                Parse number of satellites in view and optional details for each satellite from GSV statement.
+
+        config NMEA_STATEMENT_RMC
+            bool "RMC Statement"
+            default y
+            help
+                Parse GPS signal validity, ground speed, course over ground, and UTC date from RMC statement.
+
+        config NMEA_STATEMENT_GLL
+            bool "GLL Statement"
+            default y
+            help
+                Parse Latitude, Longitude, and UTC time from GLL statement.
+
+        config NMEA_STATEMENT_VTG
+            bool "VTG Statement"
+            default y
+            help
+                Parse ground speed (knots, km/h) and course over ground (degrees) from VTG statement.
+
+    endmenu
+
+endmenu
