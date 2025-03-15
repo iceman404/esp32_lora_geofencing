@@ -1,14 +1,14 @@
-# 🛰️ ESP32 LoRa Geofencing Project 🚀
+## ESP32 LoRa Geofencing Project 
 
 This project involves a geofencing system using ESP32 modules and LoRa RA02 modules operating at 433 MHz to track GPS coordinates and display them. The system is designed to monitor GPS data and can be extended to provide alerts if certain geofencing criteria are met.
 
-## 🎯 How It Works
+## How It Works
 
 1. **GPS Transmission**: The GPS Transmitter Module uses an ESP32 and GPS module to transmit GPS coordinates via a LoRa RA02 module.
 2. **Data Reception**: The Receiver Base Station uses another ESP32 with a LoRa RA02 module to receive the GPS coordinates.
 3. **Display**: The Receiver Base Station displays the received GPS coordinates on an OLED screen.
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 - **ESP32 Development Boards**: For both GPS transmission and data reception.
 - **LoRa RA02 Modules**: For long-range wireless communication.
@@ -16,7 +16,7 @@ This project involves a geofencing system using ESP32 modules and LoRa RA02 modu
 - **OLED Display**: For displaying GPS coordinates.
 - **Arduino IDE/PlatformIO**: For programming the ESP32 modules.
 
-## 📷 System Architecture
+## System Architecture
 
 The following diagram illustrates the architecture of the system:
 
